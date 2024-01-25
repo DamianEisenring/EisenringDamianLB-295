@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\EisenringDamianLB-295.props" />
+</Project>
