@@ -74,3 +74,4 @@ C:\Users\damia\source\repos\EisenringDamianLB-295\obj\Debug\net7.0\refint\Eisenr
 C:\Users\damia\source\repos\EisenringDamianLB-295\obj\Debug\net7.0\EisenringDamianLB-295.pdb
 C:\Users\damia\source\repos\EisenringDamianLB-295\obj\Debug\net7.0\EisenringDamianLB-295.genruntimeconfig.cache
 C:\Users\damia\source\repos\EisenringDamianLB-295\obj\Debug\net7.0\ref\EisenringDamianLB-295.dll
+C:\Users\damia\source\repos\EisenringDamianLB-295\obj\Debug\net7.0\EisenringDamianLB-295.sourcelink.json
