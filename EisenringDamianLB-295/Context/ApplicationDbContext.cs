@@ -10,9 +10,14 @@ namespace EisenringDamianLB_295.Context
 
         }
 
+        public  DbSet<User> Users { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+
+        public ApplicationDbContext()
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

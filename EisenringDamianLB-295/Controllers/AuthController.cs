@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore;
+using EisenringDamianLB_295.Context;
 
 namespace EisenringDamianLB_295.Controllers
 {
@@ -15,28 +17,40 @@ namespace EisenringDamianLB_295.Controllers
     {
         public static User user = new User();
         private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AuthController(IConfiguration configuration)
+
+        public AuthController(IConfiguration configuration, ApplicationDbContext dbContext)
         {
             _configuration = configuration;
+            _dbContext = dbContext;
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register(UserDto request)
+        public ActionResult Register(UserDto request)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-            user.Username = request.Username;
-            user.PasswordHash = passwordHash;
-            user.Token = CreateToken(user);
+            var newUser = new User
+            {
+                Username = request.Username,
+                PasswordHash = passwordHash
+            };
 
-            return Ok(user);
+            _dbContext.Users.Add(newUser);
+            _dbContext.SaveChanges();
+
+            return Ok(newUser); // Hier sollte ein OkObjectResult zurückgegeben werden
         }
 
+
+
         [HttpPost("login")]
-        public ActionResult<User> Login(UserDto request)
+        public ActionResult Login(UserDto request)
         {
-            if (user.Username != request.Username)
+            var user = _dbContext.Users.FirstOrDefault(u => u.Username == request.Username);
+
+            if (user == null)
             {
                 return BadRequest("Benutzer nicht gefunden.");
             }
@@ -46,11 +60,18 @@ namespace EisenringDamianLB_295.Controllers
                 return BadRequest("Falsches Passwort.");
             }
 
-            return Ok(user);
+            string token = CreateToken(user);
+
+            return Ok("Logged in Succesfully");
         }
 
         private string CreateToken(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "User cannot be null.");
+            }
+
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username)
@@ -67,6 +88,8 @@ namespace EisenringDamianLB_295.Controllers
                 );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            
+            
 
             return jwt;
         }
