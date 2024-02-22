@@ -1,12 +1,11 @@
-﻿using EisenringDamianLB_295.Models;
-using BCrypt.Net;
+﻿using EisenringDamianLB_295.Context;
+using EisenringDamianLB_295.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.EntityFrameworkCore;
-using EisenringDamianLB_295.Context;
+using System.Security.Claims;
+using System.Text;
 
 namespace EisenringDamianLB_295.Controllers
 {
@@ -88,8 +87,6 @@ namespace EisenringDamianLB_295.Controllers
                 );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            
-            
 
             return jwt;
         }

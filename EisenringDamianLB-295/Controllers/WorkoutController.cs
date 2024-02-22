@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EisenringDamianLB_295.Context;
+﻿using EisenringDamianLB_295.Context;
 using EisenringDamianLB_295.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EisenringDamianLB_295.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/WorkoutController")]
     public class WorkoutController : Controller
     {
@@ -24,7 +26,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (workout == null)
             {
-                return NotFound();
+                return NotFound("Workout not found with ID: " + id);
             }
 
             return Ok(workout);
@@ -37,13 +39,13 @@ namespace EisenringDamianLB_295.Controllers
 
             if (exercise == null)
             {
-                return NotFound();
+                return NotFound("Exercise not found with ID: " + id);
             }
 
             return Ok(exercise);
         }
 
-        [HttpGet("GetWorkoutExerciseById")]
+        [HttpGet("GetWorkoutExerciseById/{id}")]
         public async Task<ActionResult<WorkoutExercise>> GetWorkoutExerciseById(int id)
         {
             // Suchen Sie in der WorkoutExercise-Tabelle nach der ID, die entweder die WorkoutId oder die ExerciseId enthält
@@ -52,7 +54,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (workoutExercise == null)
             {
-                return NotFound();
+                return NotFound("WorkoutExercise not found with ID: " + id);
             }
 
             return Ok(workoutExercise);
@@ -116,7 +118,7 @@ namespace EisenringDamianLB_295.Controllers
             _context.WorkoutExercises.Add(workoutExercise);
             await _context.SaveChangesAsync();
 
-           
+
             return CreatedAtAction(nameof(GetWorkoutExerciseById), new { id = workoutExercise.Id }, workoutExercise);
         }
 
@@ -128,7 +130,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (workout == null)
             {
-                return NotFound();
+                return NotFound("Workout not found with ID: " + id);
             }
 
             _context.Workouts.Remove(workout);
@@ -144,7 +146,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (exercise == null)
             {
-                return NotFound();
+                return NotFound("Exercise not found with ID: " + id);
             }
 
             _context.Exercises.Remove(exercise);
@@ -161,7 +163,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (workoutExercise == null)
             {
-                return NotFound();
+                return NotFound("WorkoutExercise not found with ID: " + id);
             }
 
             _context.WorkoutExercises.Remove(workoutExercise);
@@ -177,7 +179,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (exercise == null)
             {
-                return NotFound();
+                return NotFound("Workout not found with ID: " + id);
             }
 
             // Update exercise properties
@@ -196,7 +198,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (workout == null)
             {
-                return NotFound();
+                return NotFound("Exercise not found with ID: " + id);
             }
 
             // Update workout properties
@@ -218,7 +220,7 @@ namespace EisenringDamianLB_295.Controllers
 
             if (workoutExercise == null)
             {
-                return NotFound();
+                return NotFound("WorkoutExercise not found with ID: " + id);
             }
 
             // Update workout exercise properties

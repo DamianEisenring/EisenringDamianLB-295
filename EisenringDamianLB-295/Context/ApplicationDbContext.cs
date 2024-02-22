@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EisenringDamianLB_295.Models;
+﻿using EisenringDamianLB_295.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EisenringDamianLB_295.Context
 {
@@ -10,7 +10,7 @@ namespace EisenringDamianLB_295.Context
 
         }
 
-        public  DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
